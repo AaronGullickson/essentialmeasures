@@ -2,6 +2,7 @@
 **/.RData
 **/.DS_Store
 output/*.dta
+output/*.RData
 **/*.dat
 **/*~
 thoth
