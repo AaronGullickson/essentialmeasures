@@ -1,0 +1,153 @@
+################################
+# 1/24/2015
+# Aaron Gullickson
+# This program will create the figures
+# for the paper by loading in the collapsed data
+# and calculating entropy
+# The actual processing of the full
+# data has been done on the Ubuntu desktop
+##################################
+
+library(foreign)
+library(entropy)
+
+#start with single ancestry respondents from 2000-2012
+anc.single <- read.csv("entropy_single_2000.csv")
+#anc.single$entropy <- -1 * apply(anc.single[,2:8]*log(anc.single[,2:8],7),1,sum, na.rm=T)
+#anc.single$entropy <- apply(anc.single[,2:8],1,entropy.MillerMadow)/(-1*log(1/7))
+scale2 <- 1/(-1*log(1/7,2))
+#rescale entropy from THOTH which uses log2
+anc.single[,12:16] <- anc.single[,12:16]*scale2
+
+#where should we put limits here - I think at least 200 in each ancestry
+#is a reasonable benchmark (see my tests in the other folder)
+anc.single <- anc.single[anc.single$N>=200,]
+
+anc.single.top <- anc.single[order(anc.single$entropy, decreasing=TRUE),]
+anc.single.bottom <- anc.single[order(anc.single$entropy, decreasing=FALSE),]
+whitetop <- anc.single.top[anc.single.top$big==1,][1:10,]
+whitebottom <- anc.single.bottom[anc.single.bottom$big==1,][10:1,]
+europeantop <- anc.single.top[anc.single.top$meso==1,][1:10,]
+europeanbottom <- anc.single.bottom[anc.single.bottom$meso==1,][10:1,]
+africantop <- anc.single.top[anc.single.top$meso==9,][1:10,]
+africanbottom <- anc.single.bottom[anc.single.bottom$meso==9,][10:1,]
+sasiantop <- anc.single.top[anc.single.top$meso==10,][1:10,]
+sasianbottom <- anc.single.bottom[anc.single.bottom$meso==10,][10:1,]
+measterntop <- anc.single.top[anc.single.top$meso==1,][1:10,]
+
+
+blacktop <- anc.single.top[anc.single.top$big==2,][1:10,]
+blackbottom <- anc.single.bottom[anc.single.bottom$big==2,][10:1,]
+indiantop <- anc.single.top[anc.single.top$big==3,][1:10,]
+indianbottom <- anc.single.bottom[anc.single.bottom$big==3,][10:1,]
+asiantop <- anc.single.top[anc.single.top$big==4,][1:10,]
+asianbottom <- anc.single.bottom[anc.single.bottom$big==4,][10:1,]
+latinotop <- anc.single.top[anc.single.top$big==5,][1:10,]
+latinobottom <- anc.single.bottom[anc.single.bottom$big==5,][10:1,]
+
+
+#now make pretty boxplots showing variation of entropy with each big racial
+#ancestry class
+rancestry.names=c("European","African\nAmerican","American\nIndian  ","E and\nSE Asian","Pacific\nIslander","Latino","Afro-\nCaribbean","M East/\nN African","African","South\nAsian")
+#color by OMB category
+rancestry.colors <- c("white","grey20","grey60","grey80","grey60","grey40","grey20","white","grey20","grey80")
+#color by canonical vs. non-canonical
+#rancestry.colors <- c("grey30","grey30","grey30","grey30","grey70","grey30","grey70","grey70","grey70","grey70")
+names(rancestry.colors) <- rancestry.names
+anc.single$rancestry1names <- as.factor(rancestry.names[anc.single$meso])
+anc.single$rancestry1.ordered <- with(anc.single, reorder(as.factor(rancestry1names), entropy, median))
+par(mar=c(4,4,4,1))
+bx <- boxplot(anc.single$entropy~anc.single$rancestry1.ordered, las=1, main="Boxplots of race reporting inconsistency for individual ancestries by meso-race category", col=rancestry.colors[levels(anc.single$rancestry1.ordered)], pch=20, ylim=c(0,0.8), ylab="race reporting inconsistency", cex.axis=0.7, xlab="Meso racial ancestry")
+text(bx$group+0.1, bx$out, c("Icelander","Portugese","German from Russia","Roma","Uzbek","New Zealander","Cape Verdean","Sudanese","Creole","South American","Moroccan","Other Arab","Eurasian","Amerasian","Afghan"), pos=4, cex=0.5, offset=0.01)
+legend(1,0.8,legend=c("White","Black","Indigenous","Asian","Latino"), fill=c("white","grey20","grey60","grey80","grey40"), cex=0.7, title="Big race categories")
+
+#us a linear model to see how much racial ancestry OMB and expanded can account
+#for the variance in entropy across groups
+summary(lm(anc.single$entropy~as.factor(anc.single$big)+as.factor(anc.single$meso)))
+summary(lm(anc.single$entropy~as.factor(anc.single$big)))
+
+#now look across everyone but limit to OMB racial ancestries and combinations
+anc.omb <- read.csv("entropy_omb_2000.csv")
+colnames(anc.omb)[[9]] <- "N"
+#anc.omb$entropy <- -1 * apply(anc.omb[,2:8]*log(anc.omb[,2:8], 7),1,sum, na.rm=T)
+#anc.omb$entropy <- apply(anc.omb[,2:8],1,entropy.MillerMadow)/(-1*log(1/7))
+anc.omb[,10:14] <- anc.omb[,10:14]*scale2
+anc.omb$colors <- c(rep("grey20",5),rep("grey70",10))
+anc.omb$names <- c("White","Black","Indigenous", "Asian", "Latino", "White/Black","White/Indigenous", "White/Asian", "White/Latino", "Black/Indigenous", "Black/Asian", "Black/Latino", "Indigenous/Asian", "Indigenous/Latino", "Asian/Latino")
+anc.omb <- anc.omb[order(anc.omb$entropy, decreasing=FALSE),]
+par(mar=c(5,8,1,1))
+barplot(anc.omb$entropy, names.arg=anc.omb$names, las=1, xlim=c(0,0.8), horiz=TRUE, col=anc.omb$colors, xlab="race reporting inconsistency")
+legend(0.4, 4, legend=c("Single racial ancestry","Multiple racial ancestry"), fill=c("grey20","grey70"),cex=0.85)
+
+ancreport <- cbind(c(10.6,59.6,29.8),c(20.8,57.1,22.1),c(11.0,60.2,28.8),
+	  c(9.8,62.1,28.1),c(11.4,61.3,27.3),c(12.7,60.6,26.7))
+
+colnames(ancreport) <- c("1990","2000","2001-03","2004-06","2007-09","2010-12")
+rownames(ancreport) <- c("No Ancestry","One Ancestry","Two Ancestries")
+
+par(mar=c(5,4,2,2))
+barplot(ancreport, las=1, xlab="year", ylim=c(0,110), col=c("grey20","grey50","grey80"))
+legend(1.8,110, legend=rownames(ancreport), ncol=3, fill=c("grey20","grey50","grey80"), cex=0.8)
+
+anc.omb.byyear <- read.csv("entropy_omb_byyear.csv")
+anc.omb.byyear$scale <- 1/(-1*log(1/7,2))
+anc.omb.byyear$scale[anc.omb.byyear $year<2000] <- 1/(-1*log(1/6,2))
+#anc.omb.byyear$entropy <- -1 * apply(anc.omb.byyear[,3:9]*log(anc.omb.byyear[,3:9], anc.omb.byyear$b),1,sum, na.rm=T)
+#anc.omb.byyear$entropy <- apply(anc.omb.byyear[,3:9],1,entropy.MillerMadow)/(-1*log(1/anc.omb.byyear$b))
+anc.omb.byyear[,11:15] <- anc.omb.byyear[,11:15]*anc.omb.byyear$scale
+global.weighted.average <- tapply(anc.omb.byyear$entropy*anc.omb.byyear$N,anc.omb.byyear$year,sum)/tapply(anc.omb.byyear$N,anc.omb.byyear$year,sum)
+
+multi <- anc.omb.byyear$rancestry!="White" & anc.omb.byyear$rancestry!="Black" & anc.omb.byyear$rancestry!="Indig" & anc.omb.byyear$rancestry!="Asian" & anc.omb.byyear$rancestry!="Latino"
+
+multi.weighted.average <- tapply(anc.omb.byyear$entropy[multi]*anc.omb.byyear$N[multi],anc.omb.byyear$year[multi],sum)/tapply(anc.omb.byyear$N[multi],anc.omb.byyear$year[multi],sum)
+
+
+table.omb <- tapply(anc.omb.byyear$entropy, anc.omb.byyear[,1:2], sum, na.rm=T)[c("White","Black","Indig","Asian","Latino"),]
+table.omb <- rbind(table.omb, multi.weighted.average)
+rownames(table.omb)[[6]] <- "Multiple"
+rownames(table.omb)[[3]] <- "Indigenous"
+
+year <- as.numeric(colnames(table.omb))
+par(mar=c(5,4,2,2))
+plot(year, table.omb[1,], lwd=6, lty=1, xlab="year",ylab="race reporting inconsistency", ylim=c(0,.85), type="l", las=1, xlim=c(1987,2012), xaxt="n")
+axis(1, at=c(1990, 2000, 2010))
+lines(year, table.omb[2,], lwd=6, lty=2)
+lines(year, table.omb[3,], lwd=6, lty=3)
+lines(year, table.omb[4,], lwd=6, lty=4)
+lines(year, table.omb[5,], lwd=6, lty=5)
+lines(year, table.omb[6,], lwd=6, lty=1, col="grey")
+text(1990,table.omb[,1],rownames(table.omb), cex=0.7, pos=2)
+
+#parsing variance
+
+par(mfrow=c(2,1), mar=c(3,4,1,1))
+prop <- c(71.4, 3.3, 25.3)
+bp<- barplot(prop, beside=TRUE, names.arg=c("Big Race\n ", "Meso Race\nwithin Big Race", "Individual Ancestry\nwithin Meso Race"),
+        ylim=c(0,90), main="Panel A: Share of Overall Ancestry Inequality")
+height <- prop/2
+height[2] <- -1#height[2]/15
+text(bp, prop, paste(prop,"%", sep=""), pos=3)
+
+prop2 <- c(58.4, 2.8, 0.4, 15.5, 23.1)
+names(prop2) <- c("White","Black","Indigenous","Asian","Latino")
+prop2 <- sort(prop2, decreasing=TRUE)
+bp2<- barplot(prop2, ylim=c(0,90), main="Panel B: Share of Individual Ancestry Inequality by Big Race")
+text(bp2, prop2, paste(prop2,"%", sep=""), pos=3)
+
+par(mfrow=c(1,1), mar=c(3,4,1,1), las=1, bty="n")
+
+#multilevel models
+baselodds <- c(-.287, -1.774, -2.448, .069, -1.403)
+se <- c(0.532,0.461, 0.552, 0.784, 0.804)
+baseodds <- exp(baselodds)
+upper <- exp(baselodds+1.96*se)
+lower <- exp(baselodds-1.96*se)
+plot(1:5, baseodds, pch=21, log="y", ylim=c(min(lower),max(upper)), xaxt="n", xlim=c(0.5,5.5), cex=2, bg="grey", ylab="Odds of college completion")
+epsilon <- 0.05
+segments(1:5, lower, 1:5, upper, lwd=2)
+segments(1:5-epsilon, lower, 1:5+epsilon, lower, lwd=2)
+segments(1:5-epsilon, upper, 1:5+epsilon, upper, lwd=2)
+
+axis(1, at=1:5, labels=c("White","Black","Indigenous","Asian","Latino"))
+
+

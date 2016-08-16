@@ -1,0 +1,7 @@
+**/.Rhistory
+**/.RData
+**/.DS_Store
+output/*.dta
+**/*.dat
+**/*~
+thoth
