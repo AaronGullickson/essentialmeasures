@@ -7,6 +7,12 @@
 
 library(foreign)
 
+#merge in the entropy data by racial ancestry so that I can exclude
+#small ancestry cases
+anc.single <- read.csv("output/entropy_single_2000.csv")
+anc.single <- anc.single[anc.single$N>=200, c("ancestry","N")]
+colnames(anc.single)[[1]] <- "ancestr1d"
+
 #load the data
 individual <- read.dta("output/modeldata.dta")
 
@@ -15,6 +21,10 @@ individual <- read.dta("output/modeldata.dta")
 #4 million obs
 individual <- individual[sample(1:nrow(individual), round(nrow(individual)/4,0), replace=F),]
 
+
+#merge in N
+individual <- merge(individual, anc.single, all.x=TRUE, all.y=FALSE)
+individual <- individual[!is.na(individual$N),]
 
 ##CREATE ANCESTRY VARIABLE THAT BLOCKS OUT ONE GROUP
 

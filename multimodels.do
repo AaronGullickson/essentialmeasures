@@ -13,29 +13,33 @@
 
 use output/individual, clear
 
-log using logs/log_multimodels.txt, replace text
+log using logs/log_multimodels2.txt, replace text
 
 /**WHITE**/
-keep if rancestry1s==1
+/*keep if rancestry1s==1
 xtmelogit college agectr agectrsq i.yearint female foreign || ancestr1d: 
-
+*/
+    
 /**BLACK**/
-use individual, clear
+/*use output/individual, clear
 keep if rancestry1s==2
 xtmelogit college agectr agectrsq i.yearint female foreign || ancestr1d:
-
+*/
+    
 /**INDIAN**/
-use individual, clear
+/*use output/individual, clear
 keep if rancestry1s==3
 xtmelogit college agectr agectrsq i.yearint female foreign || ancestr1d:
+*/
 
 /**ASIAN**/
-use individual, clear
+/*use output/individual, clear
 keep if rancestry1s==4
 xtmelogit college agectr agectrsq i.yearint female foreign || ancestr1d:
+*/
 
 /**LATINO**/
-use individual, clear
+use output/individual, clear
 keep if rancestry1s==5
 xtmelogit college agectr agectrsq i.yearint female foreign || ancestr1d:
 

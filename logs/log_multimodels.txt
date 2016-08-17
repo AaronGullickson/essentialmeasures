@@ -1,0 +1,334 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/aarong/Projects/GITHUB/essentialmeasures/logs/log_multimodel
+> s.txt
+  log type:  text
+ opened on:  17 Aug 2016, 07:17:32
+
+. 
+. /**WHITE**/
+. keep if rancestry1s==1
+(1,468,382 observations deleted)
+
+. xtmelogit college agectr agectrsq i.yearint female foreign || ancestr1d: 
+
+Refining starting values: 
+
+Iteration 0:   log likelihood = -2271766.4  (not concave)
+numerical derivatives are approximate
+flat or discontinuous region encountered
+numerical derivatives are approximate
+flat or discontinuous region encountered
+numerical derivatives are approximate
+flat or discontinuous region encountered
+numerical derivatives are approximate
+flat or discontinuous region encountered
+numerical derivatives are approximate
+flat or discontinuous region encountered
+numerical derivatives are approximate
+flat or discontinuous region encountered
+numerical derivatives are approximate
+flat or discontinuous region encountered
+numerical derivatives are approximate
+flat or discontinuous region encountered
+numerical derivatives are approximate
+flat or discontinuous region encountered
+Iteration 1:   log likelihood = -2270957.4  (not concave)
+Iteration 2:   log likelihood = -2270838.9  
+
+Performing gradient-based optimization: 
+
+Iteration 0:   log likelihood = -2270838.9  
+Iteration 1:   log likelihood = -2270787.3  (not concave)
+Iteration 2:   log likelihood = -2270771.7  (backed up)
+Iteration 3:   log likelihood = -2270747.7  
+Iteration 4:   log likelihood =   -2270732  
+Iteration 5:   log likelihood = -2270731.3  
+Iteration 6:   log likelihood = -2270731.3  
+
+Mixed-effects logistic regression               Number of obs     =  3,716,667
+Group variable: ancestr1d                       Number of groups  =         86
+
+                                                Obs per group:
+                                                              min =         36
+                                                              avg =   43,217.1
+                                                              max =    887,066
+
+Integration points =   7                        Wald chi2(8)      =   91289.21
+Log likelihood = -2270731.3                     Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+     college |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      agectr |  -.0027021   .0002489   -10.85   0.000      -.00319   -.0022142
+    agectrsq |  -.0003056   4.14e-06   -73.80   0.000    -.0003137   -.0002975
+             |
+     yearint |
+       2002  |   .1276034   .0043425    29.38   0.000     .1190922    .1361145
+       2005  |   .1984239   .0034178    58.06   0.000     .1917251    .2051226
+       2008  |   .2758005   .0032041    86.08   0.000     .2695206    .2820804
+       2011  |   .3373085   .0032406   104.09   0.000     .3309571    .3436599
+             |
+      female |  -.1431755   .0022625   -63.28   0.000      -.14761   -.1387411
+     foreign |   .0420076   .0052599     7.99   0.000     .0316984    .0523168
+       _cons |  -.2694009   .0565658    -4.76   0.000    -.3802678   -.1585341
+------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+ancestr1d: Identity          |
+                   sd(_cons) |    .517787   .0403344      .4444721     .603195
+------------------------------------------------------------------------------
+LR test vs. logistic model: chibar2(01) = 71699.53    Prob >= chibar2 = 0.0000
+
+. 
+. /**BLACK**/
+. use output/individual, clear
+(Written by R.              )
+
+. keep if rancestry1s==2
+(4,625,936 observations deleted)
+
+. xtmelogit college agectr agectrsq i.yearint female foreign || ancestr1d:
+
+Refining starting values: 
+
+Iteration 0:   log likelihood = -254995.37  (not concave)
+Iteration 1:   log likelihood = -254959.44  (not concave)
+Iteration 2:   log likelihood = -254954.25  (backed up)
+
+Performing gradient-based optimization: 
+
+Iteration 0:   log likelihood = -254954.25  
+Iteration 1:   log likelihood = -254952.02  
+Iteration 2:   log likelihood = -254951.63  
+Iteration 3:   log likelihood = -254951.63  
+
+Mixed-effects logistic regression               Number of obs     =    559,113
+Group variable: ancestr1d                       Number of groups  =         35
+
+                                                Obs per group:
+                                                              min =         79
+                                                              avg =   15,974.7
+                                                              max =    425,668
+
+Integration points =   7                        Wald chi2(8)      =    5333.01
+Log likelihood = -254951.63                     Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+     college |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      agectr |   .0137255   .0007903    17.37   0.000     .0121765    .0152746
+    agectrsq |  -.0004664   .0000144   -32.30   0.000    -.0004948   -.0004381
+             |
+     yearint |
+       2002  |   .1919745    .014811    12.96   0.000     .1629455    .2210035
+       2005  |   .2426769    .011035    21.99   0.000     .2210487    .2643051
+       2008  |   .2904329   .0100644    28.86   0.000      .270707    .3101588
+       2011  |    .257949   .0098456    26.20   0.000     .2386519     .277246
+             |
+      female |   .2737237   .0072604    37.70   0.000     .2594937    .2879538
+     foreign |   .3879383   .0193338    20.07   0.000     .3500447    .4258319
+       _cons |  -1.714758   .0914509   -18.75   0.000    -1.893998   -1.535517
+------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+ancestr1d: Identity          |
+                   sd(_cons) |   .5201224    .065017      .4071014    .6645208
+------------------------------------------------------------------------------
+LR test vs. logistic model: chibar2(01) = 3174.36     Prob >= chibar2 = 0.0000
+
+. 
+. /**INDIAN**/
+. use output/individual, clear
+(Written by R.              )
+
+. keep if rancestry1s==3
+(5,079,652 observations deleted)
+
+. xtmelogit college agectr agectrsq i.yearint female foreign || ancestr1d:
+
+Refining starting values: 
+
+Iteration 0:   log likelihood = -36764.388  (not concave)
+Iteration 1:   log likelihood = -36760.322  (backed up)
+Iteration 2:   log likelihood = -36759.057  
+
+Performing gradient-based optimization: 
+
+Iteration 0:   log likelihood = -36759.057  
+Iteration 1:   log likelihood = -36758.791  
+Iteration 2:   log likelihood = -36758.784  
+Iteration 3:   log likelihood = -36758.784  
+
+Mixed-effects logistic regression               Number of obs     =    105,397
+Group variable: ancestr1d                       Number of groups  =         17
+
+                                                Obs per group:
+                                                              min =        152
+                                                              avg =    6,199.8
+                                                              max =     50,811
+
+Integration points =   7                        Wald chi2(8)      =     558.35
+Log likelihood = -36758.784                     Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+     college |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      agectr |    .011783   .0022638     5.21   0.000     .0073461      .01622
+    agectrsq |  -.0004656   .0000434   -10.72   0.000    -.0005507   -.0003805
+             |
+     yearint |
+       2002  |   .2714124   .0386315     7.03   0.000      .195696    .3471289
+       2005  |   .2660574   .0302136     8.81   0.000     .2068399    .3252749
+       2008  |   .2854772   .0283118    10.08   0.000      .229987    .3409674
+       2011  |   .2693736   .0284314     9.47   0.000      .213649    .3250982
+             |
+      female |    .132298   .0196619     6.73   0.000     .0937614    .1708346
+     foreign |   .5824831   .0718837     8.10   0.000     .4415936    .7233726
+       _cons |  -2.405139   .1312797   -18.32   0.000    -2.662443   -2.147835
+------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+ancestr1d: Identity          |
+                   sd(_cons) |   .4961333   .0989972      .3355458    .7335757
+------------------------------------------------------------------------------
+LR test vs. logistic model: chibar2(01) = 371.56      Prob >= chibar2 = 0.0000
+
+. 
+. /**ASIAN**/
+. use output/individual, clear
+(Written by R.              )
+
+. keep if rancestry1s==4
+(4,914,799 observations deleted)
+
+. xtmelogit college agectr agectrsq i.yearint female foreign || ancestr1d:
+
+Refining starting values: 
+
+Iteration 0:   log likelihood = -168732.19  (not concave)
+numerical derivatives are approximate
+flat or discontinuous region encountered
+Iteration 1:   log likelihood = -168722.33  (not concave)
+Iteration 2:   log likelihood = -168721.41  (backed up)
+
+Performing gradient-based optimization: 
+
+Iteration 0:   log likelihood = -168721.41  
+Iteration 1:   log likelihood = -168720.11  
+Iteration 2:   log likelihood = -168718.24  
+Iteration 3:   log likelihood =  -168718.2  
+Iteration 4:   log likelihood =  -168718.2  
+
+Mixed-effects logistic regression               Number of obs     =    270,250
+Group variable: ancestr1d                       Number of groups  =         28
+
+                                                Obs per group:
+                                                              min =         38
+                                                              avg =    9,651.8
+                                                              max =     60,311
+
+Integration points =   7                        Wald chi2(8)      =   13352.65
+Log likelihood =  -168718.2                     Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+     college |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      agectr |  -.0163557   .0009318   -17.55   0.000     -.018182   -.0145295
+    agectrsq |  -.0002878   .0000171   -16.81   0.000    -.0003213   -.0002542
+             |
+     yearint |
+       2002  |   .1588117   .0167513     9.48   0.000     .1259796    .1916437
+       2005  |   .3009516   .0128192    23.48   0.000     .2758264    .3260768
+       2008  |   .3884689   .0118176    32.87   0.000     .3653067     .411631
+       2011  |   .4013693   .0116057    34.58   0.000     .3786225    .4241161
+             |
+      female |  -.2630961   .0083244   -31.61   0.000    -.2794116   -.2467805
+     foreign |   -.077185   .0127272    -6.06   0.000    -.1021298   -.0522402
+       _cons |   .0714504   .1483661     0.48   0.630    -.2193418    .3622426
+------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+ancestr1d: Identity          |
+                   sd(_cons) |   .7743839    .104475       .594453    1.008777
+------------------------------------------------------------------------------
+LR test vs. logistic model: chibar2(01) = 21883.73    Prob >= chibar2 = 0.0000
+
+. 
+. /**LATINO**/
+. use output/individual, clear
+(Written by R.              )
+
+. keep if rancestry1s==5
+(4,651,427 observations deleted)
+
+. xtmelogit college agectr agectrsq i.yearint female foreign || ancestr1d:
+
+Refining starting values: 
+
+Iteration 0:   log likelihood =  -176762.5  (not concave)
+Iteration 1:   log likelihood = -176352.95  (not concave)
+Iteration 2:   log likelihood = -176333.16
+
+Performing gradient-based optimization:
+
+Iteration 0:   log likelihood = -176333.16
+Iteration 1:   log likelihood = -176322.66
+Iteration 2:   log likelihood = -176314.49
+Iteration 3:   log likelihood = -176313.62
+Iteration 4:   log likelihood =  -176313.6
+Iteration 5:   log likelihood =  -176313.6
+
+Mixed-effects logistic regression               Number of obs     =    533,622
+Group variable: ancestr1d                       Number of groups  =         32
+
+                                                Obs per group:
+                                                              min =        106
+                                                              avg =   16,675.7
+                                                              max =    273,051
+
+Integration points =   7                        Wald chi2(8)      =   10059.06
+Log likelihood =  -176313.6                     Prob > chi2       =     0.0000
+
+------------------------------------------------------------------------------
+     college |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      agectr |   .0240971   .0010471    23.01   0.000     .0220447    .0261494
+    agectrsq |  -.0007909   .0000215   -36.85   0.000     -.000833   -.0007488
+             |
+     yearint |
+       2002  |   .2787883    .019574    14.24   0.000     .2404241    .3171526
+       2005  |   .3181296   .0141421    22.50   0.000     .2904116    .3458476
+       2008  |   .3776721   .0127763    29.56   0.000     .3526309    .4027133
+       2011  |   .3695559   .0125313    29.49   0.000     .3449949    .3941168
+             |
+      female |   .1154021   .0089044    12.96   0.000     .0979498    .1328544
+     foreign |  -.8726551   .0109721   -79.53   0.000      -.89416   -.8511503
+       _cons |  -1.404953   .1486762    -9.45   0.000    -1.696353   -1.113553
+------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+  Random-effects Parameters  |   Estimate   Std. Err.     [95% Conf. Interval]
+-----------------------------+------------------------------------------------
+ancestr1d: Identity          |
+                   sd(_cons) |   .8331004   .1054391      .6500808    1.067646
+------------------------------------------------------------------------------
+LR test vs. logistic model: chibar2(01) = 20734.45    Prob >= chibar2 = 0.0000
+
+.
+. log close
+      name:  <unnamed>
+       log:  /home/aarong/Projects/GITHUB/essentialmeasures/logs/log_multimodel
+> s2.txt
+  log type:  text
+ closed on:  17 Aug 2016, 11:47:26
+-------------------------------------------------------------------------------
+

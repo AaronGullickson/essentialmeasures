@@ -1,0 +1,135 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /home/aarong/Projects/GITHUB/essentialmeasures/logs/log_collapseda
+> ta.txt
+  log type:  text
+ opened on:  16 Aug 2016, 10:16:11
+
+. 
+. //Drop them if they don't have a valid first ancestry
+. drop if rancestry1>10
+(10,505,534 observations deleted)
+
+. 
+. //generate the dummy variables
+. generate white = raceshort==1
+
+. generate black = raceshort==2
+
+. generate indig = raceshort==3
+
+. generate asian = raceshort==4
+
+. generate latino = raceshort==5
+
+. generate mixed = raceshort==6
+
+. generate other = raceshort==7
+
+. generate secondanc = rancestry2!=13
+
+. generate multianc = raceanc!=6
+
+. keep white black indig asian latino mixed other secondanc multianc year races
+> hort rancestry1 rancestry2 rancestry1s samwt perwt ancestr1 ancestr1d raceanc
+> d yearint
+
+. save temp, replace
+(note: file temp.dta not found)
+file temp.dta saved
+
+. 
+. use temp, clear
+
+. drop if year<2000
+(9,919,479 observations deleted)
+
+. gen dummy = 1
+
+. collapse (sum) dummy [pweight=perwt], by(rancestry1 rancestry2)
+
+. outsheet using output/rancestry_crosstab_2000_weighted.csv, comma replace
+(note: file output/rancestry_crosstab_2000_weighted.csv not found)
+
+. 
+. use temp, clear
+
+. drop if secondanc
+(14,182,162 observations deleted)
+
+. drop if year<2000
+(6,364,382 observations deleted)
+
+. collapse (sum) white black indig asian latino mixed other (count) raceshort (
+> first) rancestry1 rancestry1s [aweight=perwt], by(ancestr1d)
+
+. outsheet using output/raceancestryd_single_2000_weighted.csv, comma replace
+(note: file output/raceancestryd_single_2000_weighted.csv not found)
+
+. 
+. use temp, clear
+
+. drop if secondanc
+(14,182,162 observations deleted)
+
+. drop if year<2000
+(6,364,382 observations deleted)
+
+. collapse (sum) white black indig asian latino mixed other (count) raceshort (
+> first) rancestry1 rancestry1s, by(ancestr1d)
+
+. outsheet using output/raceancestryd_single_2000.csv, comma replace
+(note: file output/raceancestryd_single_2000.csv not found)
+
+. 
+. 
+. use temp, clear
+
+. collapse (sum) white black indig asian latino mixed other (count) raceshort [
+> aweight=perwt], by(yearint raceancd)
+
+. outsheet using output/raceancestryomb_byyear_weighted.csv, comma replace
+(note: file output/raceancestryomb_byyear_weighted.csv not found)
+
+. 
+. use temp, clear
+
+. collapse (sum) white black indig asian latino mixed other (count) raceshort, 
+> by(yearint raceancd)
+
+. outsheet using output/raceancestryomb_byyear.csv, comma replace
+(note: file output/raceancestryomb_byyear.csv not found)
+
+. 
+. 
+. use temp, clear
+
+. drop if year<2000
+(9,919,479 observations deleted)
+
+. collapse (sum) white black indig asian latino mixed other (count) raceshort [
+> aweight=samwt], by(raceancd)
+
+. outsheet using output/raceancestryomb_2000_weighted.csv, comma replace
+(note: file output/raceancestryomb_2000_weighted.csv not found)
+
+. 
+. use temp, clear
+
+. drop if year<2000
+(9,919,479 observations deleted)
+
+. collapse (sum) white black indig asian latino mixed other (count) raceshort, 
+> by(raceancd)
+
+. outsheet using output/raceancestryomb_2000.csv, comma replace
+(note: file output/raceancestryomb_2000.csv not found)
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /home/aarong/Projects/GITHUB/essentialmeasures/logs/log_collapseda
+> ta.txt
+  log type:  text
+ closed on:  16 Aug 2016, 10:33:37
+-------------------------------------------------------------------------------
