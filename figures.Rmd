@@ -14,13 +14,6 @@ knitr::opts_chunk$set(echo = TRUE)
 anc.single <- read.csv("output/entropy_single_2000.csv")
 anc.big <- read.csv("output/entropy_omb_2000.csv")
 anc.big.byyear <- read.csv("output/entropy_omb_byyear.csv")
-#rescale entropy from THOTH which uses log2
-scale2 <- 1/(-1*log(1/7,2))
-anc.single[,12:16] <- anc.single[,12:16]*scale2
-anc.big[,10:14] <- anc.big[,10:14]*scale2
-anc.big.byyear$scale <- 1/(-1*log(1/7,2))
-anc.big.byyear$scale[anc.big.byyear $year<2000] <- 1/(-1*log(1/6,2))
-anc.big.byyear[,11:15] <- anc.big.byyear[,11:15]*anc.big.byyear$scale
 ```
 
 ##Introduction
