@@ -1,7 +1,6 @@
 ---
 title: 'Figures for Essential Measures: Ancestry, Race, and Social Difference'
 author: "Aaron Gullickson"
-date: "August 16, 2016"
 output: 
   pdf_document: 
     fig_caption: yes
