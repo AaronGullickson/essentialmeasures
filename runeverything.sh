@@ -14,6 +14,9 @@ rm temp.dta
 echo "Done"
 echo -n "Bootstrapping entropy with THOTH..."
 python entropy.py > logs/log_entropycalc.txt
+#To run R scripts to calculate entropy, comment out python command above 
+#and uncomment R batch command below
+#R CMD BATCH calculate_entropy.R logs/log_entropycalc.txt
 echo "Done"
 echo -n "Creating model data..."
 R CMD BATCH createmodeldata.R logs/log_modeldata.txt
